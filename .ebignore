@@ -1,4 +1,3 @@
 venv
 db_update.py
-production.db
 __pycache__
