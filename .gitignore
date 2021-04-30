@@ -1,3 +1,7 @@
+venv
+db_update.py
+production.db
+__pycache__
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
