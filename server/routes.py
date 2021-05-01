@@ -8,30 +8,41 @@ trie_blueprint = Blueprint(
 
 @trie_blueprint.route('/dump', methods=["GET", "POST"])
 def dump():
-    node = Trie.query
-    nodeList = [nodes.serialize() for nodes in node]
-    return jsonify(nodeList[0])
+    """Returns the trie as a json"""
+    node = Trie.query.get(1)
+    return jsonify(node.serialize())
 
 
 @trie_blueprint.route('/find', methods=["GET", "POST"])
 def find():
+    """Searches for a keyword in the trie (returns True/False)"""
     req_data = request.form
     node = Trie.query.get(1)
-    for char in req_data["Key"]:
+    for char in req_data["data"]:
         child = node.in_children(char)
         if child is not None:
             node = child
         else:
             return str(False)
-    return str(True) if node.isLeaf else str(False)
+    return str(True) if node.is_leaf else str(False)
 
 
 @trie_blueprint.route('/insert', methods=["GET", "POST"])
 def insert():
-    """Insert key/value pair into node."""
-    req_data = request.form
+    """Inserts one or more keywords into the trie"""
+    req_data = request.get_json()
+    if type(req_data["data"]) == str:
+        r = insertWord(req_data["data"])
+    else:
+        for i in req_data["data"]:
+            r = insertWord(i)
+    return r
+
+
+def insertWord(word):
+    """Inserts one keyword into the trie"""
     node = Trie.query.get(1)
-    for char in req_data["Key"]:
+    for char in word:
         child = node.in_children(char)
         if child is None:
             toAdd = Trie(char)
@@ -40,14 +51,27 @@ def insert():
             node = toAdd
         else:
             node = child
-    node.isLeaf = True
+    node.is_leaf = True
     db.session.commit()
     return "Done"
 
 
 @trie_blueprint.route('/delete', methods=["GET", "POST"])
 def delete():
-    req_data = request.form
+    """Deletes one or more keywords from the trie"""
+    req_data = request.get_json()
+    print(req_data["data"])
+    if type(req_data["data"]) == str:
+        r = deleteWord(req_data["data"])
+    else:
+        for i in req_data["data"]:
+            r = deleteWord(i)
+    return r
+
+
+def deleteWord(word):
+    """Deletes a single keyword from the trie, but does not remove
+       nodes if other words are using them."""
     node = Trie.query.get(1)
 
     def helper(curr, key, depth):
@@ -55,27 +79,28 @@ def delete():
             if len(curr.children) == 0:
                 db.session.delete(curr)
                 return True
-            curr.isLeaf = False
+            curr.is_leaf = False
             return False
         else:
             child = curr.in_children(key[depth])
             if child is None:
                 return False
             remove = helper(child, key, depth + 1)
-            if remove and len(curr.children) <= 1 and curr.value != "":
+            if remove and not curr.is_leaf and curr.value != "":
                 db.session.delete(curr)
                 return True
 
-    helper(node, req_data["Key"], 0)
+    helper(node, word, 0)
     db.session.commit()
     return "Done"
 
 
 @trie_blueprint.route('/autocomplete', methods=["GET", "POST"])
 def autocomplete():
+    """Returns a list of autocomplete suggestions based on your input"""
     req_data = request.form
     node = Trie.query.get(1)
-    for char in req_data["Key"]:
+    for char in req_data["data"]:
         child = node.in_children(char)
         if child is None:
             return "No words found."
@@ -83,7 +108,7 @@ def autocomplete():
 
     def helper(curr, word):
         if not curr.children:
-            return req_data["Key"] + word + '\n'
+            return req_data["data"] + word + '\n'
         else:
             toReturn = ""
             for child in curr.children:
