@@ -1,4 +1,4 @@
-## Global Trie Data Structure
+# Global Trie Data Structure
 A Global Implementation of the Trie Data Structure.
 
 This is a project created for the Slingshot Fellowship Program.
