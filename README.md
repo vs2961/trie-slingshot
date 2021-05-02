@@ -1,6 +1,7 @@
 ## Global Trie Data Structure
-A project created for the Slingshot Fellowship Program.
+A Global Implementation of the Trie Data Structure.
 
+This is a project created for the Slingshot Fellowship Program.
 
 ## FAQ
 ***Where is the server hosted?***
@@ -28,8 +29,8 @@ BASE_URL: <http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/>
 
     * `curl -d '{"data": "arg"}' -H "Content-Type: application/json" -X POST BASE_URL/insert`
 
-* delete - Deletes a keyword from the trie - Needs Info
-    * The value can be an list of strings or just a string
+* delete - Deletes a keyword from the trie
+    * **Needs Info** - The value can be an list of strings or just a string
 
     * `curl -d '{"data": ["arg1", "arg2", ...]}' -H "Content-Type: application/json" -X POST BASE_URL/delete`
 
@@ -39,53 +40,15 @@ BASE_URL: <http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/>
 * dump - Returns a JSON of the root node.
     * `curl -X POST BASE_URL/dump`
 
-* find - Returns True or False depending if the keyword was found in the trie - Needs Info
-    * value must be a string
+* find - Returns True or False depending if the keyword was found in the trie
+    * **Needs Info** - The value must be a string
 
     * `curl -d '{"data": "arg"}' -H "Content-Type: application/json" -X POST BASE_URL/find`
 
-* autocomplete - Returns a list of autocomplete suggestions based on the input prefix - Needs Info
-    * value must be a string
+* autocomplete - Returns a list of autocomplete suggestions based on the input prefix
+    * **Needs Info** - value must be a string
 
     * `curl -d '{"data": "arg"}' -H "Content-Type: application/json" -X POST BASE_URL/autocomplete`
-
-
-## Installation
-
-
-
-```bash
-npm install
-```
-
-```bash
-yarn install
-```
-
-## Usage
-In order to run this project 2 scripts will need to be executed `dev:react` and `dev:electron`, run each one in a different terminal and always run `dev:react` before `dev:electron`, or `dev` to run them in order automatically
-
-```bash
-npm run dev:react
-```
-```bash
-npm run dev:electron
-```
-
-or
-
-```bash
-npm run dev
-```
-
-## Packaging
-To generate a project package run `package`
-
-```bash
-npm run package
-```
-
-
 
 ## Contributing
 
