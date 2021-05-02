@@ -39,7 +39,7 @@ Run `Trie-CLI [COMMAND] --help` for help with a specific command. (ex. `Trie-CLI
 
 ## Using the Testing Suite
 
-1. Before using the Testing Suite, you must clear the table. Type `Trie-CLI drop_db --yes`
+1. Before using the Testing Suite, you must clear the table. Type `Trie-CLI drop_db --yes`.
 
 2. Navigate into the `testing_suite` folder and run `pytest test.py`. This will run basic tests on the Trie. See the file for more information.
 
@@ -47,12 +47,12 @@ Run `Trie-CLI [COMMAND] --help` for help with a specific command. (ex. `Trie-CLI
 
 ## FAQ
 
-***Can you provide example commands so that I understand how to use the CLI?***
+***Can you provide example commands so that I understand how to use the CLI?*** <br />
 Try `Trie-CLI add hello world` and `Trie-CLI display`.
 This adds the words hello and world, and displays them in the trie.
 
-***Can I enter a prewritten word file?***
+***Can I enter a prewritten word file?*** <br />
 Use the -f, or --file flag to do so. (ex. `Trie-CLI add -f words.txt`)
 
-***Your tree display implementation is cool!***
+***Your tree display implementation is cool!*** <br />
 Thanks! I took inspiration from a tutorial for creating Directory Trees in Python. You can find it here: https://realpython.com/directory-tree-generator-python/#step-2-generating-a-directory-tree-diagram-in-python
