@@ -23,12 +23,13 @@ If you are missing packages, run `pip install -r requirements.txt` inside the CL
 You may use the built in help function using `Trie-CLI --help`, or just run `Trie-CLI`.
 
 **Availiable Commands:**
-
-* add           Adds STRING/the words in your file to the trie
-* autocomplete  Returns a list of autocomplete suggestions based on your...
-* delete        Deletes STRING from the trie
-* display       Displays the Trie
-* search        Tells you whether or not the keyword is in the Trie
+Command       | Description
+------------- | -------------
+add           | Adds STRING/the words in your file to the trie
+autocomplete  | Returns a list of autocomplete suggestions based on your...
+delete        | Deletes STRING from the trie
+display       | Displays the Trie
+search        | Tells you whether or not the keyword is in the Trie
 
 Run `Trie-CLI [COMMAND] --help` for help with a specific command. (ex. `Trie-CLI add --help`)
 
