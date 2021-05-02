@@ -12,7 +12,7 @@ You will need Python, install it using your local package manager or at https://
 
 2. (Optional) Create and enter a virtual environment to test using the command `virtualenv venv`, then `source venv/bin/activate`
 
-3. Run `pip install -e .` to install the command for the CLI.
+3. Run `pip install -e .` to install the command for the CLI. (**Note the . at the end**)
 
 ## Debugging
 
