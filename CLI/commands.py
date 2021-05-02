@@ -57,9 +57,19 @@ def delete(file, string):
 
 @cli.command()
 @click.argument('string')
+def search(string):
+    r = requests.post(LINK + "find", json={'data': string})
+    if r.text == "True":
+        print(f"{string} was found in the trie")
+    else:
+        print(f"{string} was not found.")
+
+
+@cli.command()
+@click.argument('string')
 def autocomplete(string):
     """Returns a list of autocomplete suggestions based on your input"""
-    r = requests.post(LINK + "autocomplete", data={'data': string})
+    r = requests.post(LINK + "autocomplete", json={'data': string})
     print(r.text)
 
 

@@ -16,7 +16,7 @@ def dump():
 @trie_blueprint.route('/find', methods=["GET", "POST"])
 def find():
     """Searches for a keyword in the trie (returns True/False)"""
-    req_data = request.form
+    req_data = request.get_json()
     node = Trie.query.get(1)
     for char in req_data["data"]:
         child = node.in_children(char)
@@ -98,7 +98,7 @@ def deleteWord(word):
 @trie_blueprint.route('/autocomplete', methods=["GET", "POST"])
 def autocomplete():
     """Returns a list of autocomplete suggestions based on your input"""
-    req_data = request.form
+    req_data = request.get_json()
     node = Trie.query.get(1)
     for char in req_data["data"]:
         child = node.in_children(char)
