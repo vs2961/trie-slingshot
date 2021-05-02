@@ -55,4 +55,4 @@ This adds the words hello and world, and displays them in the trie.
 Use the -f, or --file flag to do so. (ex. `Trie-CLI add -f words.txt`)
 
 ***Your tree display implementation is cool!*** <br />
-Thanks! I took inspiration from a tutorial for creating Directory Trees in Python. You can find it here: https://realpython.com/directory-tree-generator-python/#step-2-generating-a-directory-tree-diagram-in-python
+Thanks! I took inspiration from a [tutorial](https://realpython.com/directory-tree-generator-python/#step-2-generating-a-directory-tree-diagram-in-python) for creating Directory Trees in Python.

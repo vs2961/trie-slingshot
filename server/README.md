@@ -17,7 +17,7 @@ The server supports GET requests as well, but all curl commands + CLI requests u
 Current availiable REST endpoints:
 If marked "Needs Info", the endpoint takes in a JSON with the name/value pair `{"data": value}`
 
-BASE_URL: <http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/>
+BASE_URL: <http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/><br />
 **Insert this URL where it says BASE_URL in the** `curl` **commands**
 
 * insert - Inserts a keyword into the trie
@@ -47,11 +47,3 @@ BASE_URL: <http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/>
     * **Needs Info** - value must be a string
 
     * `curl -d '{"data": "arg"}' -H "Content-Type: application/json" -X POST BASE_URL/autocomplete`
-
-## Contributing
-
-Pull requests are always welcome 😃.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
