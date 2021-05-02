@@ -25,9 +25,9 @@ You may use the built in help function using `Trie-CLI --help`, or just run `Tri
 **Availiable Commands:**
 Command       | Description
 ------------- | -------------
-add           | Adds STRING/the words in your file to the trie
-autocomplete  | Returns a list of autocomplete suggestions based on your...
-delete        | Deletes STRING from the trie
+add           | Adds the keyword/words in your file to the trie
+autocomplete  | Returns a list of autocomplete suggestions based on your keyword
+delete        | Deletes the keyword/words in your file from the trie
 display       | Displays the Trie
 search        | Tells you whether or not the keyword is in the Trie
 

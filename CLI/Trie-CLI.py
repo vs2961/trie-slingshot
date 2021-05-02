@@ -13,7 +13,7 @@ def cli():
 @click.option('-f', '--file', is_flag=True, help="Use word file")
 @click.argument('string')
 def add(file, string):
-    """Adds STRING/the words in your file to the trie"""
+    """Adds the STRING/words in your file to the trie"""
     if file:
         x = open(string)
         words = []
@@ -36,7 +36,7 @@ def add(file, string):
 @click.option('-f', '--file', is_flag=True, help="Use word file")
 @click.argument('string')
 def delete(file, string):
-    """Deletes STRING from the trie"""
+    """Deletes the STRING/words in your file from the trie"""
     if file:
         x = open(string)
         words = []
@@ -58,7 +58,7 @@ def delete(file, string):
 @cli.command()
 @click.argument('string')
 def search(string):
-    """Tells you whether or not the keyword is in the Trie"""
+    """Tells you whether or not the STRING is in the Trie"""
     r = requests.post(LINK + "find", json={'data': string})
     if r.text == "True":
         print(f"{string} was found in the trie")
@@ -69,7 +69,7 @@ def search(string):
 @cli.command()
 @click.argument('string')
 def autocomplete(string):
-    """Returns a list of autocomplete suggestions based on your input"""
+    """Returns a list of autocomplete suggestions based on your STRING"""
     r = requests.post(LINK + "autocomplete", json={'data': string})
     print(r.text)
 
