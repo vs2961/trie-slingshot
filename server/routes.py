@@ -8,11 +8,13 @@ trie_blueprint = Blueprint(
 
 @trie_blueprint.route("/")
 def show():
+    """Main Page"""
     return render_template('index.html')
 
 
 @trie_blueprint.route("/dropdb", methods=["GET", "POST"])
 def drop_db():
+    """Deletes all nodes from the trie"""
     db.session.query(Trie).delete()
     db.session.commit()
     new = Trie("")
