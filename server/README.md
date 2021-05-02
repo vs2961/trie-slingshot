@@ -10,7 +10,7 @@ The server is hosted on AWS Electric Beanstalk at http://trie-slingshot.eba-rmuf
 
 The CLI uses python [requests](https://docs.python-requests.org/en/master/), and interacts with the server's various endpoints with POST requests to perform operations.
 
-The server does support GET requests as well, but it is recommended to use POST requests to avoid unexpected bugs.
+The server supports GET requests as well, but all curl commands + CLI requests use POST for consistency.
 
 ## About
 

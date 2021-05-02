@@ -1,8 +1,9 @@
 import click
 import requests
 
+# Change this to "http://127.0.0.1:5000/" if testing locally
 LINK = "http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/"
-
+LINK = "http://127.0.0.1:5000/"
 
 @click.group()
 def cli():
@@ -11,59 +12,67 @@ def cli():
 
 @cli.command()
 @click.option('-f', '--file', is_flag=True, help="Use word file")
-@click.argument('string')
-def add(file, string):
+@click.argument('strings', nargs=-1)
+def add(file, strings):
     """Adds the STRING/words in your file to the trie"""
     if file:
-        x = open(string)
-        words = []
-        for i in x:
-            words.append(i.strip())
-        r = requests.post(LINK + "insert", json={'data': words})
-        if r.text == "Done":
-            print("Added all words from file")
-        else:
-            print("Something went wrong. Try again later.\n" + r.text)
+        for string in strings:
+            x = open(string)
+            words = []
+            for i in x:
+                words.append(i.strip())
+            r = requests.post(LINK + "insert", json={'data': words})
+            if r.text == "Done":
+                print("Added all words from file")
+            else:
+                print("Something went wrong. Try again later.\n" + r.text)
     else:
-        r = requests.post(LINK + "insert", json={'data': [string.strip()]})
+        data = [string.strip() for string in strings]
+        r = requests.post(LINK + "insert", json={'data': data})
         if r.text == "Done":
-            print(f"Added {string}")
+            print(f"Added your keywords!")
         else:
             print("Something went wrong. Try again later.\n" + r.text)
 
 
 @cli.command()
 @click.option('-f', '--file', is_flag=True, help="Use word file")
-@click.argument('string')
-def delete(file, string):
+@click.argument('strings', nargs=-1)
+def delete(file, strings):
     """Deletes the STRING/words in your file from the trie"""
     if file:
-        x = open(string)
-        words = []
-        for i in x:
-            words.append(i.strip())
-        r = requests.post(LINK + "delete", json={'data': words})
-        if r.text == "Done":
-            print("Deleted all words from file")
-        else:
-            print("Something went wrong. Try again later.\n" + r.text)
+        for string in strings:
+            x = open(string, "r")
+            words = []
+            for i in x:
+                words.append(i.strip())
+            r = requests.post(LINK + "delete", json={'data': words})
+            if r.text == "Done":
+                print("Deleted all words from file")
+            else:
+                print("Something went wrong. Try again later.\n" + r.text)
     else:
-        r = requests.post(LINK + "delete", json={'data': [string.strip()]})
+        data = [string.strip() for string in strings]
+        r = requests.post(LINK + "delete", json={'data': data})
         if r.text == "Done":
-            print(f"Deleted {string}")
+            print(f"Deleted all your keywords!")
         else:
             print("Something went wrong. Try again later.\n" + r.text)
 
 
 @cli.command()
+@click.option('-v', '--verbose', is_flag=True, help="Give more details")
 @click.argument('string')
-def search(string):
+def search(verbose, string):
     """Tells you whether or not the STRING is in the Trie"""
-    r = requests.post(LINK + "find", json={'data': string})
-    if r.text == "True":
-        print(f"{string} was found in the trie")
+    r = requests.post(LINK + "search", json={'data': string})
+    if verbose:
+        if r.text == "True":
+            print(f"{string} was found in the trie")
+        else:
+            print(f"{string} was not found.")
     else:
-        print(f"{string} was not found.")
+        print(r.text)
 
 
 @cli.command()
@@ -71,13 +80,15 @@ def search(string):
 def autocomplete(string):
     """Returns a list of autocomplete suggestions based on your STRING"""
     r = requests.post(LINK + "autocomplete", json={'data': string})
-    print(r.text)
+    if r.text.strip() == "":
+        print("No words detected.")
+    else:
+        print(r.text)
 
 
 @cli.command()
 def display():
     """Displays the Trie"""
-    PIPE = "│"
     ELBOW = "└──"
     TEE = "├──"
     PIPE_PREFIX = "│   "
@@ -90,7 +101,7 @@ def display():
 
         def build_tree(self):
             self.tree.append(self.root['VALUE'])
-            self.tree.append(PIPE)
+            self.tree.append(PIPE_PREFIX.rstrip())
             self.tree_body(self.root, "")
             return self.tree
 
@@ -116,14 +127,24 @@ def display():
                 word + node["VALUE"],
                 prefix=prefix,
             )
-            self.tree.append(prefix.rstrip())
 
     r = requests.post(LINK + "dump")
     node = r.json()
-    gen = TreeGenerator(node)
-    tree = gen.build_tree()
-    for line in tree:
-        print(line)
+    if len(node['CHILDREN']) == 0:
+        print("No nodes in tree. Run Trie-CLI add test to add a few!")
+    else:
+        gen = TreeGenerator(node)
+        tree = gen.build_tree()
+        for line in tree:
+            print(line)
+
+
+@cli.command()
+@click.confirmation_option(prompt='Are you sure you want to drop the db?')
+def drop_db():
+    """Deletes all nodes from the Trie"""
+    r = requests.post(LINK + "dropdb")
+    print(r.text)
 
 
 if __name__ == '__main__':

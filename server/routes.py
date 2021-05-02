@@ -11,6 +11,16 @@ def show():
     return render_template('index.html')
 
 
+@trie_blueprint.route("/dropdb", methods=["GET", "POST"])
+def drop_db():
+    db.session.query(Trie).delete()
+    db.session.commit()
+    new = Trie("")
+    db.session.add(new)
+    db.session.commit()
+    return "Deleted all nodes."
+
+
 @trie_blueprint.route('/dump', methods=["GET", "POST"])
 def dump():
     """Returns the trie as a json"""
@@ -18,8 +28,8 @@ def dump():
     return jsonify(node.serialize())
 
 
-@trie_blueprint.route('/find', methods=["GET", "POST"])
-def find():
+@trie_blueprint.route('/search', methods=["GET", "POST"])
+def search():
     """Searches for a keyword in the trie (returns True/False)"""
     req_data = request.get_json()
     if not req_data:
@@ -90,7 +100,7 @@ def deleteWord(word):
 
     def helper(curr, key, depth):
         if depth == len(key):
-            if len(curr.children) == 0:
+            if len(curr.children) == 0 and curr.value != "":
                 db.session.delete(curr)
                 return True
             curr.is_leaf = False
@@ -124,12 +134,11 @@ def autocomplete():
         node = child
 
     def helper(curr, word):
-        if not curr.children:
-            return req_data["data"] + word + '\n'
-        else:
-            toReturn = ""
-            for child in curr.children:
-                toReturn += helper(child, word + child.value)
-            return toReturn
+        toReturn = ""
+        if curr.is_leaf:
+            toReturn += req_data["data"] + word + '\n'
+        for child in curr.children:
+            toReturn += helper(child, word + child.value)
+        return toReturn
 
-    return helper(node, "")
+    return helper(node, "").strip()

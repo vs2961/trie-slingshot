@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Bash code provided by https://stackoverflow.com/questions/56534678/how-to-create-a-cli-in-python-that-can-be-installed-with-pip
-
-if [[ ! $@ ]]; then
-    python Trie-CLI.py --help
-else
-    python Trie-CLI.py $@
-fi
