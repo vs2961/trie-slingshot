@@ -1,9 +1,14 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from models import Trie, db
 
 trie_blueprint = Blueprint(
         'trie', __name__,
         template_folder='templates')
+
+
+@trie_blueprint.route("/")
+def show():
+    return render_template('index.html')
 
 
 @trie_blueprint.route('/dump', methods=["GET", "POST"])
@@ -17,6 +22,9 @@ def dump():
 def find():
     """Searches for a keyword in the trie (returns True/False)"""
     req_data = request.get_json()
+    if not req_data:
+        return "No data was found. Did you pass in a JSON with the \
+                name/value pair {'data': value}?"
     node = Trie.query.get(1)
     for char in req_data["data"]:
         child = node.in_children(char)
@@ -31,6 +39,9 @@ def find():
 def insert():
     """Inserts one or more keywords into the trie"""
     req_data = request.get_json()
+    if not req_data:
+        return "No data was found. Did you pass in a JSON with the \
+                name/value pair {'data': value}?"
     if type(req_data["data"]) == str:
         r = insertWord(req_data["data"])
     else:
@@ -60,6 +71,9 @@ def insertWord(word):
 def delete():
     """Deletes one or more keywords from the trie"""
     req_data = request.get_json()
+    if not req_data:
+        return "No data was found. Did you pass in a JSON with the \
+                name/value pair {'data': value}?"
     print(req_data["data"])
     if type(req_data["data"]) == str:
         r = deleteWord(req_data["data"])
@@ -99,6 +113,9 @@ def deleteWord(word):
 def autocomplete():
     """Returns a list of autocomplete suggestions based on your input"""
     req_data = request.get_json()
+    if not req_data:
+        return "No data was found. Did you pass in a JSON with the \
+                name/value pair {'data': value}?"
     node = Trie.query.get(1)
     for char in req_data["data"]:
         child = node.in_children(char)
