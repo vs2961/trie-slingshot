@@ -58,6 +58,7 @@ def delete(file, string):
 @cli.command()
 @click.argument('string')
 def search(string):
+    """Tells you whether or not the keyword is in the Trie"""
     r = requests.post(LINK + "find", json={'data': string})
     if r.text == "True":
         print(f"{string} was found in the trie")

@@ -3,7 +3,7 @@
 # Bash code provided by https://stackoverflow.com/questions/56534678/how-to-create-a-cli-in-python-that-can-be-installed-with-pip
 
 if [[ ! $@ ]]; then
-    python3 commands.py --help
+    python Trie-CLI.py --help
 else
-    python3 commands.py $@
+    python Trie-CLI.py $@
 fi
