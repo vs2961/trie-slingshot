@@ -13,7 +13,3 @@ More info can be found here: https://en.wikipedia.org/wiki/Trie
 ***Can I learn more about the server and/or the CLI?***
 
 Of course! Open up the folder corresponding to the part you wish to learn more about.
-
-***Will you secure a spot in the Slingshot Fellowship Program?***
-
-I don't know, it's up to them to decide.

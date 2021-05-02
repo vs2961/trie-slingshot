@@ -3,7 +3,7 @@ import requests
 
 # Change this to "http://127.0.0.1:5000/" if testing locally
 LINK = "http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/"
-LINK = "http://127.0.0.1:5000/"
+
 
 @click.group()
 def cli():
