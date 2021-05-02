@@ -14,7 +14,7 @@ def show():
 
 @trie_blueprint.route("/dropdb", methods=["GET", "POST"])
 def drop_db():
-    """Deletes all nodes from the trie"""
+    """Deletes all nodes from the trie - probably O(1) honestly"""
     db.session.query(Trie).delete()
     db.session.commit()
     new = Trie("")
@@ -25,14 +25,15 @@ def drop_db():
 
 @trie_blueprint.route('/dump', methods=["GET", "POST"])
 def dump():
-    """Returns the trie as a json"""
+    """Returns the trie as a json - O(# of nodes in tree)"""
     node = Trie.query.get(1)
     return jsonify(node.serialize())
 
 
 @trie_blueprint.route('/search', methods=["GET", "POST"])
 def search():
-    """Searches for a keyword in the trie (returns True/False)"""
+    """Searches for a keyword in the trie (returns True/False) -
+       Time Complexity: O(length of keyword)"""
     req_data = request.get_json()
     if not req_data:
         return "No data was found. Did you pass in a JSON with the \
@@ -49,7 +50,8 @@ def search():
 
 @trie_blueprint.route('/insert', methods=["GET", "POST"])
 def insert():
-    """Inserts one or more keywords into the trie"""
+    """Inserts one or more keywords into the trie.
+       Time Complexity: O(length of all keywords)"""
     req_data = request.get_json()
     if not req_data:
         return "No data was found. Did you pass in a JSON with the \
@@ -63,7 +65,7 @@ def insert():
 
 
 def insertWord(word):
-    """Inserts one keyword into the trie"""
+    """Inserts one keyword into the trie - O(length of keyword)"""
     node = Trie.query.get(1)
     for char in word:
         child = node.in_children(char)
@@ -81,7 +83,8 @@ def insertWord(word):
 
 @trie_blueprint.route('/delete', methods=["GET", "POST"])
 def delete():
-    """Deletes one or more keywords from the trie"""
+    """Deletes one or more keywords from the trie.
+       Time Complexity: O(length of all keywords)"""
     req_data = request.get_json()
     if not req_data:
         return "No data was found. Did you pass in a JSON with the \
@@ -97,7 +100,9 @@ def delete():
 
 def deleteWord(word):
     """Deletes a single keyword from the trie, but does not remove
-       nodes if other words are using them."""
+       nodes if other words are using them.
+       Time Complexity: O(length of keyword)"""
+
     node = Trie.query.get(1)
 
     def helper(curr, key, depth):
@@ -123,7 +128,8 @@ def deleteWord(word):
 
 @trie_blueprint.route('/autocomplete', methods=["GET", "POST"])
 def autocomplete():
-    """Returns a list of autocomplete suggestions based on your input"""
+    """Returns a list of autocomplete suggestions based on your input.
+       Time Complexity: O(# of nodes in tree)"""
     req_data = request.get_json()
     if not req_data:
         return "No data was found. Did you pass in a JSON with the \
