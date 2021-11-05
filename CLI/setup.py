@@ -14,8 +14,5 @@ setup(
         'pytest >= 6.2.3'
     ],
     python_requires='>=3.5',
-    entry_points='''
-        [console_scripts]
-        Trie-CLI=commands:cli
-    ''',
+    entry_points={'console_scripts': ['Trie-CLI = commands:cli']}
 )

@@ -2,8 +2,7 @@ import click
 import requests
 
 # Change this to "http://127.0.0.1:5000/" if testing locally
-LINK = "http://trie-slingshot.eba-rmufyux3.us-east-2.elasticbeanstalk.com/"
-
+LINK = "http://trie-slingshot-dev.us-west-2.elasticbeanstalk.com/"
 
 @click.group()
 def cli():
@@ -25,14 +24,14 @@ def add(file, strings):
             if r.text == "Done":
                 print("Added all words from file")
             else:
-                print("Something went wrong. Try again later.\n" + r.text)
+                print("Something went wrong.\n" + r.text)
     else:
         data = [string.strip() for string in strings]
         r = requests.post(LINK + "insert", json={'data': data})
         if r.text == "Done":
             print(f"Added your keywords!")
         else:
-            print("Something went wrong. Try again later.\n" + r.text)
+            print("Something went wrong.\n" + r.text)
 
 
 @cli.command()
@@ -50,14 +49,14 @@ def delete(file, strings):
             if r.text == "Done":
                 print("Deleted all words from file")
             else:
-                print("Something went wrong. Try again later.\n" + r.text)
+                print("Something went wrong.\n" + r.text)
     else:
         data = [string.strip() for string in strings]
         r = requests.post(LINK + "delete", json={'data': data})
         if r.text == "Done":
             print(f"Deleted all your keywords!")
         else:
-            print("Something went wrong. Try again later.\n" + r.text)
+            print("Something went wrong.\n" + r.text)
 
 
 @cli.command()

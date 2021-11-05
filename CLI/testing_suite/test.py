@@ -1,5 +1,5 @@
 """
-Run this file to test the basic capabilities of the Trie.
+Use this file to test the basic capabilities of the Trie.
 
 Display not included in testing suite because it is more of a visual test.
 
@@ -83,3 +83,10 @@ def test_file():
     delete("word_test.txt", isFile=True)
     all_words = autocomplete("").stdout
     assert all_words == "No words detected.\n"
+
+
+# Add tests after this line
+test_add_find_delete()
+test_substrings()
+test_autocomplete()
+test_file()

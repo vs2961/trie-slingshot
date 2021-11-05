@@ -53,7 +53,7 @@ def insert():
     """Inserts one or more keywords into the trie.
        Time Complexity: O(length of all keywords)"""
     req_data = request.get_json()
-    if not req_data:
+    if not req_data["data"]:
         return "No data was found. Did you pass in a JSON with the \
                 name/value pair {'data': value}?"
     if type(req_data["data"]) == str:
@@ -86,7 +86,7 @@ def delete():
     """Deletes one or more keywords from the trie.
        Time Complexity: O(length of all keywords)"""
     req_data = request.get_json()
-    if not req_data:
+    if not req_data["data"]:
         return "No data was found. Did you pass in a JSON with the \
                 name/value pair {'data': value}?"
     print(req_data["data"])
